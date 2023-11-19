@@ -1,0 +1,34 @@
+{
+  "kontaks": [
+    {
+      "id": 1,
+      "nama": "Andi",
+      "nohp": 123456
+    },
+    {
+      "id": 2,
+      "nama": "Budi",
+      "nohp": 123456
+    },
+    {
+      "id": 3,
+      "nama": "asadxx",
+      "nohp": "121212"
+    },
+    {
+      "id": 4,
+      "nama": "asadad",
+      "nohp": "121313"
+    },
+    {
+      "id": 5,
+      "nama": "asdad",
+      "nohp": "adadad"
+    },
+    {
+      "id": 6,
+      "nama": "asdada",
+      "nohp": "00000000"
+    }
+  ]
+}
