@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
 import { useAppState } from "../../contexts/useAppState.jsx";
-import { detailKontak, getKontakList } from "../../actions/kontakAction.jsx";
+import {
+  deleteKontak,
+  detailKontak,
+  getKontakList,
+} from "../../actions/kontakAction.jsx";
 import { Button, Table } from "react-bootstrap";
 import FromKontak from "../formKontak/index.jsx";
 
@@ -12,10 +16,19 @@ function ListKontak() {
     getKontakLoading,
     getKontakError,
     addKontakLoading,
+    deleteKontakResult,
+    updateKontakLoading,
+    deleteKontakLoading,
   } = state;
   useEffect(() => {
     getKontakList(dispatch);
   }, [dispatch]);
+
+  useEffect(() => {
+    if (deleteKontakResult) {
+      getKontakList(dispatch);
+    }
+  }, [deleteKontakResult, dispatch]);
   return (
     <div>
       <FromKontak show={modalShow} onHide={() => setModalShow(false)} />
@@ -29,7 +42,9 @@ function ListKontak() {
         >
           Tambah
         </Button>
-        {addKontakLoading ? "Loading..." : ""}
+        {addKontakLoading | updateKontakLoading | deleteKontakLoading
+          ? "Loading..."
+          : ""}
       </div>
       <Table className="mt-3" striped bordered hover>
         <thead>
@@ -48,7 +63,22 @@ function ListKontak() {
                   <td>{index + 1}</td>
                   <td>{kontak.nama}</td>
                   <td>{kontak.nohp}</td>
-                  <td>Action ...</td>
+                  <td>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => deleteKontak(dispatch, kontak)}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      className="ms-2 btn btn-primary btn-sm"
+                      onClick={() => {
+                        detailKontak(dispatch, kontak), setModalShow(true);
+                      }}
+                    >
+                      Edit
+                    </button>
+                  </td>
                 </tr>
               );
             })

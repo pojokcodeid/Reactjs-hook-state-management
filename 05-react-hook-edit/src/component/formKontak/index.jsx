@@ -1,14 +1,23 @@
 import { useEffect, useState } from "react";
 import { Col, Modal, Row } from "react-bootstrap";
 import { useAppState } from "../../contexts/useAppState.jsx";
-import { addKontak, getKontakList } from "../../actions/kontakAction.jsx";
+import {
+  addKontak,
+  getKontakList,
+  updateKontak,
+} from "../../actions/kontakAction.jsx";
 
 function FromKontak(props) {
   const [nama, setNama] = useState("");
   const [nohp, setNohp] = useState("");
   const [id, setId] = useState("");
   const [state, dispatch] = useAppState();
-  const { addKontakResult, addKontakLoading, detailKontakResult } = state;
+  const {
+    addKontakResult,
+    addKontakLoading,
+    detailKontakResult,
+    updateKontakResult,
+  } = state;
   const setTitle = () => {
     let title = id ? "Edit Kontak" : "Add Kontak";
     if (addKontakLoading) {
@@ -21,6 +30,9 @@ function FromKontak(props) {
     event.preventDefault();
     if (id) {
       // edit process
+      if (updateKontak(dispatch, { id, nama, nohp })) {
+        props.onHide();
+      }
     } else {
       // add process
       if (addKontak(dispatch, { nama, nohp })) {
@@ -44,6 +56,15 @@ function FromKontak(props) {
       setId(detailKontakResult.id);
     }
   }, [detailKontakResult]);
+
+  useEffect(() => {
+    if (updateKontakResult) {
+      getKontakList(dispatch);
+      setNohp("");
+      setNama("");
+      setId("");
+    }
+  }, [updateKontakResult, dispatch]);
 
   return (
     <>
